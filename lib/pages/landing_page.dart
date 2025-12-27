@@ -13,7 +13,7 @@ class LandingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Landing Page - Under Development',
+              'Welcome to Naga City App',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
