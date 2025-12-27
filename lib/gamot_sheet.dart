@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'medicine_detail_page.dart';
 
 class GamotSheet extends StatelessWidget {
   const GamotSheet({super.key});
@@ -41,110 +42,179 @@ class GamotSheet extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Calculate item width for 3 items per row with 12px spacing
+                  // Width = (TotalWidth - (2 * 12)) / 3
+                  final double itemWidth = (constraints.maxWidth - 24) / 3;
 
-                  // Locate availability Button
-                  GestureDetector(
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Locating nearby pharmacies...')),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(bottom: 16),
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFFD1D5DB), width: 1.5), // Thicker Gray Border
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.08), // More highlighted shadow
-                            blurRadius: 12,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start, // Align left
-                        children: const [
-                          Icon(Icons.map_outlined, color: Color(0xFF4A8B95)),
-                          SizedBox(width: 12),
-                          Text(
-                            'Locate medicine availability',
-                            style: TextStyle(
-                              color: Color(0xFF2C2C2C),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700, // Slightly bolder
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                   const SizedBox(height: 8), // Small spacer before search
-                  // Search Box
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFD1D5DB), width: 1.5), // Matching thicker border
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.08), // Matching stronger shadow
-                          blurRadius: 12,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.search, color: Color(0xFF9CA3AF)),
-                        SizedBox(width: 12),
-                        Text(
-                          'Search medicines...',
-                          style: TextStyle(
-                            color: Color(0xFF9CA3AF),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  // Cabinet Section
-                  const Text(
-                    'Cabinet',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2C2C2C),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // Mockup Boxes
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildMockupBox(context, 'Ibuprofen', Colors.orange.shade100),
-                      _buildMockupBox(context, 'Paracetamol', Colors.blue.shade100),
-                      _buildMockupBox(context, 'Cetirizine', Colors.green.shade100),
-                    ],
-                  ),
-                  
+                      const SizedBox(height: 8), // Small spacer before search
+                      // Search Box
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFFD1D5DB), width: 1.5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.08),
+                              blurRadius: 12,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.search, color: Color(0xFF9CA3AF)),
+                            SizedBox(width: 12),
+                            Text(
+                              'Search medicines...',
+                              style: TextStyle(
+                                color: Color(0xFF9CA3AF),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                   const SizedBox(height: 40),
-                ],
+                      const SizedBox(height: 32),
+
+                      // Cabinet Section
+                      const Text(
+                        'Cabinet',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF2C2C2C),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Cabinet Items Grid
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: [
+                          _buildMockupBox(
+                            itemWidth,
+                            'Ibuprofen',
+                            Colors.orange.shade100,
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => MedicineDetailPage(
+                                  medicineName: 'Ibuprofen',
+                                  accentColor: Colors.orange,
+                                  prescriptionRequired: false,
+                                ),
+                              );
+                            },
+                          ),
+                          _buildMockupBox(
+                            itemWidth,
+                            'Paracetamol',
+                            Colors.blue.shade100,
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => MedicineDetailPage(
+                                  medicineName: 'Paracetamol',
+                                  accentColor: Colors.blue,
+                                  prescriptionRequired: false,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      // Medicine Section
+                      const Text(
+                        'Medicine',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF2C2C2C),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Medicine Items Grid
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: [
+                          _buildMockupBox(
+                            itemWidth,
+                            'Aspirin',
+                            Colors.red.shade100,
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => MedicineDetailPage(
+                                  medicineName: 'Aspirin',
+                                  accentColor: Colors.red,
+                                  prescriptionRequired: true,
+                                ),
+                              );
+                            },
+                          ),
+                          _buildMockupBox(
+                            itemWidth,
+                            'Amoxicillin',
+                            Colors.purple.shade100,
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => MedicineDetailPage(
+                                  medicineName: 'Amoxicillin',
+                                  accentColor: Colors.purple,
+                                  prescriptionRequired: true,
+                                ),
+                              );
+                            },
+                          ),
+                          _buildMockupBox(
+                            itemWidth,
+                            'Antibiotics',
+                            Colors.teal.shade100,
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => MedicineDetailPage(
+                                  medicineName: 'Antibiotics',
+                                  accentColor: Colors.teal,
+                                  prescriptionRequired: true,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 40),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -153,12 +223,16 @@ class GamotSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildMockupBox(BuildContext context, String label, Color color) {
-    // Calculate width to fit 3 items with spacing
-    // Screen width - padding (48) - spacing (2 * 12) / 3
-    final width = (MediaQuery.of(context).size.width - 48 - 24) / 3;
-    
-    return Container(
+  Widget _buildMockupBox(
+    double width,
+    String label,
+    Color color, {
+    VoidCallback? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
       width: width,
       height: width, // Square aspect ratio
       padding: const EdgeInsets.all(12),
@@ -199,6 +273,7 @@ class GamotSheet extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
