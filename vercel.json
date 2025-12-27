@@ -1,14 +1,5 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "pubspec.yaml",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "build/web"
-            }
-        }
-    ],
+    "framework": null,
     "installCommand": "if [ -d \"flutter\" ]; then cd flutter && git pull && cd ..; else git clone https://github.com/flutter/flutter.git -b stable; fi && ./flutter/bin/flutter doctor && ./flutter/bin/flutter config --enable-web",
     "buildCommand": "./flutter/bin/flutter build web --release",
     "outputDirectory": "build/web",
