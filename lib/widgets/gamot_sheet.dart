@@ -320,7 +320,7 @@ class _GamotSheetState extends State<GamotSheet> {
                                       context: context,
                                       isScrollControlled: true,
                                       backgroundColor: Colors.transparent,
-                                      builder: (context) => MedicineDetailPage(
+                                      builder: (context) => MedicineDetailSheet(
                                         medicineName: 'Amoxicillin',
                                         accentColor: Colors.purple,
                                         prescriptionRequired: true,
@@ -337,7 +337,7 @@ class _GamotSheetState extends State<GamotSheet> {
                                       context: context,
                                       isScrollControlled: true,
                                       backgroundColor: Colors.transparent,
-                                      builder: (context) => MedicineDetailPage(
+                                      builder: (context) => MedicineDetailSheet(
                                         medicineName: 'Antibiotics',
                                         accentColor: Colors.teal,
                                         prescriptionRequired: true,
