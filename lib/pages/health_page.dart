@@ -117,7 +117,7 @@ class HealthPage extends StatelessWidget {
                           context: context,
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
-                          builder: (context) => const ClinicLocationsPage(),
+                          builder: (context) => const ClinicLocationsSheet(),
                         );
                       }
                     },
