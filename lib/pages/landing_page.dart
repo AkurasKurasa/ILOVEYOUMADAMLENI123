@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'health_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

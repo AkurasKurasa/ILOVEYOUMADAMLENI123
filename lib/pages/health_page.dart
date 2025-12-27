@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'gamot_sheet.dart';
-import 'checkup_sheet.dart';
-import 'records_sheet.dart';
+import '../widgets/gamot_sheet.dart';
+import '../widgets/checkup_sheet.dart';
+import '../widgets/records_sheet.dart';
+import '../widgets/clinic_locations_sheet.dart';
 
 class HealthPage extends StatelessWidget {
   const HealthPage({super.key});
@@ -18,7 +19,7 @@ class HealthPage extends StatelessWidget {
           style: TextStyle(
             color: Color(0xFF2C2C2C), // Softer black
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w900,
           ),
         ),
         leading: IconButton(
@@ -37,35 +38,28 @@ class HealthPage extends StatelessWidget {
                 children: [
                   // Search Bar
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
                         color: Colors.grey.shade300,
-                        width: 2.0,
+                        width: 1.0,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
                     ),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.search,
-                          color: Color(0xFF6B6B5F),
+                          color: Colors.grey.shade400,
                           size: 20,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 12),
                         Text(
                           'Search...',
                           style: TextStyle(
-                            color: const Color(0xFF6B6B5F).withOpacity(0.8),
-                            fontSize: 16,
+                            color: Colors.grey.shade400,
+                            fontSize: 15,
                           ),
                         ),
                       ],
@@ -76,17 +70,16 @@ class HealthPage extends StatelessWidget {
                     'Health Services',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       color: Color(0xFF2C2C2C),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   const Text(
-                    'Health services in the Naga City app',
+                    'Health services in the Naga City app.',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.black,
-                      height: 1.4,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -94,9 +87,7 @@ class HealthPage extends StatelessWidget {
                     context,
                     label: 'Gamot',
                     description: 'Access free medicines and vitamins.',
-                    icon: Image.asset('assets/images/gamot_icon.png', width: 32, height: 32),
-                    iconBgColor: const Color(0xFFFFE5E5), // Light coral background
-                    containerBgColor: Colors.grey.shade300, // Subtle grey container
+                    iconBgColor: const Color(0xFFFFE5E5), // Light coral
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -111,26 +102,32 @@ class HealthPage extends StatelessWidget {
                     context,
                     label: 'Check Up',
                     description: 'Book an appointment with a doctor.',
-                    icon: Image.asset('assets/images/checkup_icon.png', width: 32, height: 32),
-                    iconBgColor: const Color(0xFFE0F2F1), // Light teal background
-                    containerBgColor: Colors.grey.shade300, // Subtle grey container
-                    onTap: () {
-                      showModalBottomSheet(
+                    iconBgColor: const Color(0xFFE0F2F1), // Light teal
+                    onTap: () async {
+                      final result = await showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
                         builder: (context) => const CheckupSheet(),
                       );
+                      
+                      // If assessment was completed, show clinic locations
+                      if (result == true && context.mounted) {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) => const ClinicLocationsPage(),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 16),
                   _buildServiceTile(
                     context,
-                    label: 'Medical Records',
+                    label: 'Records',
                     description: 'Access your personal health records.',
-                    icon: Image.asset('assets/images/records_icon.png', width: 32, height: 32),
-                    iconBgColor: const Color(0xFFE1F5FE), // Light blue background
-                    containerBgColor: Colors.grey.shade300, // Subtle grey container
+                    iconBgColor: const Color(0xFFE1F5FE), // Light blue
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -159,13 +156,13 @@ class HealthPage extends StatelessWidget {
                     'Tools',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       color: Color(0xFF2C2C2C),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   const Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    'Tools in the Naga Health App.',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.black,
@@ -208,8 +205,7 @@ class HealthPage extends StatelessWidget {
     BuildContext context, {
     required String label,
     required String description,
-    required Widget icon,
-    required Color iconBgColor, // Pastel background for the icon
+    required Color iconBgColor, // Colored background placeholder
     required VoidCallback onTap,
     Color? containerBgColor, // Optional container background color
   }) {
@@ -217,29 +213,25 @@ class HealthPage extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: containerBgColor ?? Colors.grey.shade200,
+          color: containerBgColor ?? Colors.transparent,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03), // Very subtle shadow
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          border: Border.all(
+            color: Colors.grey.shade300,
+            width: 1.0,
+          ),
         ),
         child: Row(
           children: [
+            // Colored placeholder square (no icon image)
             Container(
-              width: 56,
-              height: 56,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
-                color: iconBgColor, // Colored background for icon
+                color: iconBgColor,
                 borderRadius: BorderRadius.circular(12),
               ),
-              alignment: Alignment.center,
-              child: icon,
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -249,17 +241,17 @@ class HealthPage extends StatelessWidget {
                   Text(
                     label,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF2C2C2C),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
                     description,
                     style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF6B6B5F),
+                      fontSize: 12,
+                      color: Color(0xFF2C2C2C),
                       height: 1.4,
                     ),
                   ),

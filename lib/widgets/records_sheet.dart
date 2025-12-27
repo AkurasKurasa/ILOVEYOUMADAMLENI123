@@ -189,10 +189,10 @@ class RecordsSheet extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: const Color(0xFF4A8B95).withOpacity(0.1),
+              color: const Color.fromRGBO(239, 62, 35, 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.description_outlined, color: Color(0xFF4A8B95)),
+            child: const Icon(Icons.description_outlined, color: Color.fromRGBO(239, 62, 35, 1)),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -240,7 +240,7 @@ class RecordsSheet extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF4A8B95), // Teal accent
+            color: Color.fromRGBO(239, 62, 35, 1), // Red-orange accent
           ),
         ),
         const SizedBox(height: 4),

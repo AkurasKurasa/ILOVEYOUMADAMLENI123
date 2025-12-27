@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'landing_page.dart';
-import 'health_page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'pages/landing_page.dart';
+import 'pages/health_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFFF5F5F0), // Soft off-white
+        fontFamily: GoogleFonts.figtree().fontFamily,
       ),
       home: const LandingPage(),
       routes: {

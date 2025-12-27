@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'clinic_locations_sheet.dart';
 
 class CheckupSheet extends StatefulWidget {
   const CheckupSheet({super.key});
@@ -40,13 +41,8 @@ class _CheckupSheetState extends State<CheckupSheet> {
   }
 
   void _submitAssessment() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Assessment submitted successfully!'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-    Navigator.pop(context);
+    // Pop with true to indicate assessment was completed
+    Navigator.pop(context, true);
   }
 
   @override
@@ -287,7 +283,7 @@ class _CheckupSheetState extends State<CheckupSheet> {
               child: ElevatedButton(
                 onPressed: _selectedConcern != null ? _submitAssessment : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6B6B5F),
+                  backgroundColor: const Color.fromRGBO(239, 62, 35, 1),
                   foregroundColor: Colors.white,
                   disabledBackgroundColor: Colors.grey.shade300,
                   elevation: 2,
@@ -299,7 +295,7 @@ class _CheckupSheetState extends State<CheckupSheet> {
                   'Submit Assessment',
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),

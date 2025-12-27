@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'pharmacy_locations_sheet.dart';
 
-class MedicineDetailPage extends StatelessWidget {
+class MedicineDetailSheet extends StatelessWidget {
   final String medicineName;
   final Color accentColor;
   final bool prescriptionRequired;
 
-  const MedicineDetailPage({
+  const MedicineDetailSheet({
     super.key,
     required this.medicineName,
     required this.accentColor,
@@ -124,16 +125,17 @@ class MedicineDetailPage extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO: Implement availability check
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Checking availability for $medicineName...'),
-                        duration: const Duration(seconds: 2),
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => PharmacyLocationsSheet(
+                        medicineName: medicineName,
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF6B6B5F),
+                    backgroundColor: const Color.fromRGBO(239, 62, 35, 1),
                     foregroundColor: Colors.white,
                     elevation: 2,
                     shape: RoundedRectangleBorder(
@@ -144,7 +146,7 @@ class MedicineDetailPage extends StatelessWidget {
                     'Check Medicine Availability',
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
